@@ -1,5 +1,6 @@
 package com.waveway.parang.model;
 
+import com.waveway.parang.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -46,4 +47,7 @@ public class UserEntity {
     @Column(name="user_role",length = 255,nullable = true)
     private String userRole;
 
+    public void updateInfo(UserDTO userDTO){
+        this.userNickName = userDTO.getUserNickName();
+    }
 }
