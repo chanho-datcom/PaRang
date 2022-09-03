@@ -59,7 +59,7 @@ export const BasicUserProfile = () => {
             url: API_BASE_URL + "/user/updateinfo",
             headers: { Authorization: localStorage.getItem("Authorization") },
             data: {
-                'userNickName': '닉변테스트입니당',
+                'userNickName' : '변수흠'
             }
         })
             .then((response) => {

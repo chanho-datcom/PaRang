@@ -22,9 +22,9 @@ function SignUpComponent() {
             url: API_BASE_URL + "/user/signup"
         })
             .then((response) => {
-              if(response.data !==null){
+            if(response.data !==null){
                 navigate("/signin");
-              }
+            }
             });
     }
 

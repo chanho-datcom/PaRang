@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useState } from 'react'
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardActions from '@mui/material/CardActions';
@@ -11,11 +11,36 @@ import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Grid, Box, Paper } from '@mui/material';
+import { Grid, Box, Paper, TextField, Button } from '@mui/material';
 import Prac from '../../Prac';
+import axios from 'axios';
+import { API_BASE_URL } from '../../config/API-Config';
 
 export const FeedWrite = () => {
   const [expanded] = React.useState(false);
+  // const [feedContent, setFeedContent] = useState("");
+
+
+
+  const Feed =(FeedDTO)=>{
+    axios({
+      url : API_BASE_URL + "/feedAll/feedwrite",
+      method: 'post',
+      headers: { Authorization: localStorage.getItem("Authorization") },
+      data: FeedDTO
+    }).then((response)=>{
+      console.log(FeedDTO)
+      console.log(response)
+    })
+  }
+  
+  const FeedWriteAct = (e) => {
+    e.preventDefault();
+    const data = new FormData(e.target);
+    const feedContent = data.get("feedContent");
+    Feed({ feedContent: feedContent });
+  }
+
 
   return (
     <Grid container>
@@ -34,26 +59,26 @@ export const FeedWrite = () => {
             }
             title="가입한사람 닉네임"
             subheader=" 게시글 작성한 날짜"
-          />
-
+            />
+            <form onSubmit={FeedWriteAct}>
           <Paper elevation={3} height={'60%'} padding={2}>
             <Box sx={{ height: '300px', padding: 2 }}>
-
-              <Typography variant="body2" color="text.secondary">
-                <input type="text" placeholder='글쓰기' ></input>
                 <Prac />
-                <button > 작성완료</button>
+              <Typography variant="body2" color="text.secondary">
+            <TextField
+              variant='outlined'
+              required
+              fullWidth
+              id='feedContent'
+              name='feedContent'
+              label="글 작성"
+            >
+          </TextField>
+                <Button type='submit'> 작성완료</Button>
               </Typography>
             </Box>
           </Paper>
-          <CardActions disableSpacing>
-            <IconButton aria-label="add to favorites">
-              <FavoriteIcon />
-            </IconButton>
-            <IconButton aria-label="share">
-              <ShareIcon />
-            </IconButton>
-          </CardActions>
+                </form>
           <Collapse in={expanded} timeout="auto" unmountOnExit>
           </Collapse>
         </Card>
@@ -62,3 +87,5 @@ export const FeedWrite = () => {
   )
 }
 
+
+export default FeedWrite;

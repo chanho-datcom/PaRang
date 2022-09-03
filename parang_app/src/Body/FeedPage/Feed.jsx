@@ -11,9 +11,9 @@ import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Grid, Box, Paper } from '@mui/material';
+import { Grid, Box, Paper, TextField } from '@mui/material';
 import FeedService from './FeedService';
-
+import FeedWrite from '../FeedPage/FeedWrite';
 import { useNavigate } from "react-router-dom";
 
 
@@ -38,7 +38,7 @@ export default function Feed() {
   return (
       <Grid container>
         <Grid width={'70vw'} alignItems={'justify'}>
-          {/* <button onClick={navigate("/")}>ddd</button> */}
+          <FeedWrite />
           {board.map((item, idx) => { return <Card sx={{ width: '100%', height: '80vh' }}>
             <CardHeader
                 // {/* 프로필 이미지  */}
@@ -74,6 +74,14 @@ export default function Feed() {
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
             </Collapse>
+            {/* 댓글 TextField */}
+            <TextField
+              variant='outlined'
+              required
+              fullWidth
+              label="댓글 작성"
+            >
+          </TextField>
           </Card>})}
 
         </Grid>
