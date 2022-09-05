@@ -13,8 +13,8 @@ public class AWSConfig {
     /**
      * Key는 중요정보이기 때문에 properties 파일에 저장한 뒤 가져와 사용하는 방법이 좋습니다.
      */
-    private String iamAccessKey = ""; // 1 IAM Access Key a
-    private String iamSecretKey = ""; // 1 IAM Secret Key a
+    private String iamAccessKey = ""; // 1 IAM Access Key a z
+    private String iamSecretKey = ""; // 1 IAM Secret Key a z
     private String region = "ap-northeast-2"; // Bucket Region
 
 
