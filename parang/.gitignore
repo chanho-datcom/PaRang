@@ -34,7 +34,7 @@ out/
 /dist/
 /nbdist/
 /.nb-gradle/
-
+/aws/
 ### VS Code ###
 .vscode/
 
