@@ -30,7 +30,7 @@ function SignUpComponent() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("hi");
+        console.log(e.target.value);
         const data = new FormData(e.target);
         const userEmail = data.get("userEmail");
         const userPassword = data.get("userPassword");
@@ -62,7 +62,7 @@ function SignUpComponent() {
     //사용자가 입력한 인증코드와 컨트롤러에서 리턴된 인증코드 비교
     const checkCerNum = (e) => {
         e.preventDefault();
-        if(certificationNum === checkNum){
+        if(certificationNum == checkNum){
             alert("확인완료")
             setCertificated(true);
         }else{

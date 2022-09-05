@@ -22,10 +22,11 @@ public class FeedDTO {
     private String boardLikes;
     private String boardHates;
     private String boardImg;
-    private Date boardUpdated;
+    private String boardWriterNickName;
 
     public FeedDTO(final FeedEntity boardEntity) {
         this.boardTitle = boardEntity.getBoardTitle();
+        this.boardWriterNickName = boardEntity.getBoardWriterNickName();
         this.boardContent = boardEntity.getBoardContent();
         this.boardCategory = boardEntity.getBoardCategory();
         this.boardWriterId = boardEntity.getBoardWriterId();
@@ -35,15 +36,16 @@ public class FeedDTO {
     }
 
 
-    public static FeedEntity toEntity(final FeedDTO dto) {
+    public static FeedEntity toEntity(final FeedDTO feedDTO) {
         return FeedEntity.builder()
-                .boardTitle(dto.getBoardTitle())
-                .boardContent(dto.getBoardContent())
-                .boardCategory(dto.getBoardCategory())
-                .boardWriterId(dto.getBoardWriterId())
-                .boardLikes(dto.getBoardLikes())
-                .boardHates(dto.getBoardHates())
-                .boardImg(dto.getBoardImg())
+                .boardTitle(feedDTO.getBoardTitle())
+                .boardWriterNickName(feedDTO.getBoardWriterNickName())
+                .boardContent(feedDTO.getBoardContent())
+                .boardCategory(feedDTO.getBoardCategory())
+                .boardWriterId(feedDTO.boardWriterId)
+                .boardLikes(feedDTO.getBoardLikes())
+                .boardHates(feedDTO.getBoardHates())
+                .boardImg(feedDTO.getBoardImg())
 
                 .build();
     }

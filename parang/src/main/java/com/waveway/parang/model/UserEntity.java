@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "user")
-public class UserEntity {
+public class UserEntity extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JoinColumn(name = "user_id")

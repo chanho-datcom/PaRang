@@ -39,7 +39,7 @@ export default function Feed() {
       <Grid container>
         <Grid width={'70vw'} alignItems={'justify'}>
           <FeedWrite />
-          {board.map((item, idx) => { return <Card sx={{ width: '100%', height: '80vh' }}>
+          {board.slice(0).reverse().map((item, idx) => { return <Card sx={{ width: '100%', height: '80vh' }}>
             <CardHeader
                 // {/* 프로필 이미지  */}
                 avatar={
@@ -52,14 +52,15 @@ export default function Feed() {
                     <MoreVertIcon />
                   </IconButton>
                 }
-                title={item.boardId}
-                subheader= {item.boardUpdatedTime}
+                title={item.boardWriterNickName}
+                subheader= {item.CreatedDate}
             >
             </CardHeader>
 
             <Paper elevation={3} height={'60%'} padding={2}>
               <Box sx={{ height: '300px', padding: 2 }}>
                 <Typography variant="body2" color="text.secondary">
+                 <img src={item.boardImg} alt="img" /> 
                   {item.boardContent}
                 </Typography>
               </Box>

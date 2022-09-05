@@ -10,8 +10,10 @@ export const IntroducingPage = () => {
   return (
     <div>
       <Container maxWidth='80vw'>
-        <Box className='인트로 화면 공간' sx={{ height: '100vh', mx: '10vw' }}>
+        <Box className='인트로 화면 공간' sx={{ height: '100vh', mx: '10vw', bgcolor :'warning.main' }}>
+            <img src="../../../peng.png" alt="" />
           <Box sx={{ bgcolor: 'error.main', height: '100%' }}>
+            
             인트로 화면 삽입
           </Box>
         </Box>
