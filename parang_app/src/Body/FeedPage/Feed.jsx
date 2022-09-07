@@ -15,6 +15,7 @@ import { Grid, Box, Paper, TextField } from '@mui/material';
 import FeedService from './FeedService';
 import FeedWrite from '../FeedPage/FeedWrite';
 import { useNavigate } from "react-router-dom";
+import { AvatarComponent } from '../../ComponentList/AvatarComponent';
 
 
 
@@ -32,6 +33,9 @@ export default function Feed() {
     });
   }, []);
 
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
   ////////////////////////////////////////
 
 
@@ -44,7 +48,7 @@ export default function Feed() {
                 // {/* 프로필 이미지  */}
                 avatar={
                   <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                    불신지옥
+                    <AvatarComponent />
                   </Avatar>
                 }
                 action={
@@ -60,7 +64,7 @@ export default function Feed() {
             <Paper elevation={3} height={'60%'} padding={2}>
               <Box sx={{ height: '300px', padding: 2 }}>
                 <Typography variant="body2" color="text.secondary">
-                 <img src={item.boardImg} alt="img" /> 
+                <img src={item.boardImg} alt="img" /> 
                   {item.boardContent}
                 </Typography>
               </Box>
