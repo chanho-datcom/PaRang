@@ -1,7 +1,5 @@
-import axios from "axios";
 import React from "react";
 import { useState, useRef } from "react";
-import { API_BASE_URL } from "./config/API-Config";
 
 const Prac = (props) => {
   const [imageUrl, setImageUrl] = useState(null);
@@ -21,10 +19,7 @@ const Prac = (props) => {
 
   const onClickFileBtn = (e) => {
     imgRef.current.click();
-    axios.post(API_BASE_URL + "/upload")
   };
-
-
 
   return (
     <React.Fragment>

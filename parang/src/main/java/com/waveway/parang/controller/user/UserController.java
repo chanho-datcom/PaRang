@@ -143,18 +143,6 @@ public class UserController {
         return ResponseEntity.ok().body(responseUserDTO);
     }
 
-    @PutMapping("/updateinfo")
-    public ResponseEntity<?> updateNickName(@AuthenticationPrincipal Long userId, @RequestBody UserDTO userDTO){
-        log.info("userId : " + userId);
-        log.info(userDTO.getUserNickName());
-
-        userService.update(userId, userDTO);
-        return ResponseEntity.ok().build();
-    }
-
-
-
-
 
 }
 

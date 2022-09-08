@@ -6,17 +6,15 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import { Container, Grid, Box, Paper, Button, TextField, Input, FormControl } from '@mui/material';
+import { Container, Grid, Box, Paper, Button, TextField } from '@mui/material';
 import { useState } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../../config/API-Config';
 import axios from 'axios';
 import Modal from '@mui/material/Modal';
 
 export const BasicUserProfile = () => {
 
-
- 
     const style = {
         position: 'absolute',
         top: '50%',
@@ -45,9 +43,7 @@ export const BasicUserProfile = () => {
             })
             .catch();
     }, []);
-    
 
- 
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => {
@@ -57,57 +53,55 @@ export const BasicUserProfile = () => {
         setOpen(false);
     };
 
-    const nickNameUpdate = (userDTO) => {
-        axios({
-            method: 'put',
-            url: API_BASE_URL + "/user/updateinfo",
-            headers: { Authorization: localStorage.getItem("Authorization") },
-            data : userDTO
-        })
-            .then((response) => {
-                console.log(response.data);
-                setUserInfo(response.data);
-                setOpen(false);
-                navigate("/MyPage");
-            })
-            console.log(userDTO);
-    }
-    const updateAction = (e) => {
-        const data = new FormData(e.target)
-        const userNickName = data.get("userNickName");
-        console.log(userNickName);
-        nickNameUpdate({ userNickName: userNickName });
-    }
+    const nickNameUpdate = (e)=>{
 
-    
+
+        axios
+            .get(API_BASE_URL + "/user/nicknameupdate", {
+                headers: { Authorization: localStorage.getItem("Authorization") },
+            })
+            .then((res)=>{
+                console(res.data);
+                setUserInfo(res.data);
+                navigate("/MyPage")
+            })
+    }
 
 
 
     return (
         <div>
+
             <Grid item my={2}>
                 <Paper className="바탕" elevation={3} height={'110%'} width={'100%'}>
+
                     <Box sx={{ height: '30vh', width: 'inherit' }}>
                         <Typography mt={2} mb={0}
-                            width={'inherit'}
-                            align='center'
-                            variant="body2"
-                            noWrap
-                            component="a"
-                            href="/"
-                            sx={{
-                                display: { xs: 'none', md: 'flex' },
-                                fontFamily: 'GmarketSansMedium',
-                                fontWeight: 500,
-                                letterSpacing: '-.1rem',
-                                color: 'inherit',
-                                textDecoration: 'none',
-                            }}>
+                                    width={'inherit'}
+                                    align='center'
+                                    variant="body2"
+                                    noWrap
+                                    component="a"
+                                    href="/"
+                                    sx={{
+
+
+                                        display: { xs: 'none', md: 'flex' },
+                                        fontFamily: 'GmarketSansMedium',
+                                        fontWeight: 500,
+                                        letterSpacing: '-.1rem',
+                                        color: 'inherit',
+                                        textDecoration: 'none',
+                                    }}>
                             기본정보
                         </Typography>
+
                         <Grid container alignItems={'center'}>
+
                             <Grid item xs={10}>
+
                                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', }}>
+
                                     <ListItem alignItems='center' >
                                         <ListItemAvatar>
                                             <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
@@ -125,7 +119,9 @@ export const BasicUserProfile = () => {
                                                             color: 'inherit',
                                                             textDecoration: 'none',
                                                         }}>{userInfo.userName} 님
+
                                                     </Typography>
+
                                                 </React.Fragment>
                                             }
                                         />
@@ -133,13 +129,21 @@ export const BasicUserProfile = () => {
                                 </List>
                             </Grid>
                             <Grid item xs={2}>
+
+
                                 <Grid item xs={12}>
                                     <Divider variang='middle' />
                                 </Grid>
+
+
                             </Grid>
+
                             <Grid container alignItems={'center'}>
+
                                 <Grid item xs={10}>
+
                                     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', }}>
+
                                         <ListItem alignItems='center' >
                                             <ListItemAvatar>
                                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
@@ -158,7 +162,9 @@ export const BasicUserProfile = () => {
                                                                 color: 'inherit',
                                                                 textDecoration: 'none',
                                                             }}>{userInfo.userNickName}
+
                                                         </Typography>
+
                                                     </React.Fragment>
                                                 }
                                             />
@@ -170,17 +176,18 @@ export const BasicUserProfile = () => {
                                         수정하기
                                     </Button>
                                 </Grid>
+
+
                                 <Modal
                                     open={open}
                                     onClose={handleClose}
                                     aria-labelledby="parent-modal-title"
                                     aria-describedby="parent-modal-description"
                                 >
-                                    <form onSubmit={updateAction}>
                                     <Box sx={{ ...style, width: 400 }}>
                                         <h2 id="parent-modal-title">닉네임 변경하기</h2>
                                         <Grid item xs={12}>
-                                            <Input
+                                            <TextField
                                                 variant='outlined'
                                                 required
                                                 fullWidth
@@ -189,17 +196,19 @@ export const BasicUserProfile = () => {
                                                 name='userNickName'
                                                 label="닉네임"
                                                 autoComplete='userNickname'
-                                            />    
-                                        
-                                            <Button type='submit' onClick={updateAction}>변경하기</Button>
+                                            />
+                                            <Button onClick={nickNameUpdate}>변경하기</Button>
                                         </Grid>
                                     </Box>
-                                    </form>
                                 </Modal>
                             </Grid>
+
+
+
                             <Grid item xs={12}>
                                 <Divider variang='middle' />
                             </Grid>
+
                             <Grid container alignItems={'center'}>
                                 <Grid item xs={12}>
                                     <List sx={{ width: '100%', bgcolor: 'background.paper', }}>
@@ -220,7 +229,9 @@ export const BasicUserProfile = () => {
                                                                 color: 'inherit',
                                                                 textDecoration: 'none',
                                                             }}>{userInfo.userPNum}
+
                                                         </Typography>
+
                                                     </React.Fragment>
                                                 }
                                             />
