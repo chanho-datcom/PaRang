@@ -6,29 +6,30 @@ import axios from "axios";
 import TemparatureGraph from "./chart/TemparatureGraph";
 
 
-const FishingWeather = ({ setPortName, tdWeather }) => {
+const FishingWeather = ({ tdWeather }) => {
+    
     return (
-        <div>
-            <Grid container display={'inline-block'}>
-                <Grid item gap={2}>
-                    <Paper elevation={2}>
-                        <Grid item>
-                            지역 :   {tdWeather[0].fcst_harbor_name}
-                        </Grid>
-                        <Grid item>
-                            날짜 :   {tdWeather[0].fcst_date}
-                        </Grid>
-                    </Paper>
+        <div>{tdWeather.length === 0 ?<Grid item>지역을 먼저 입력해주세요.</Grid> :  <Grid container display={'inline-block'}>
+        <Grid item gap={2}>
+            <Paper elevation={2}>
+                <Grid item>
+                    지역 :   {tdWeather[0].fcst_harbor_name}
                 </Grid>
-                <Paper>
-                    <Box>
-                        <Box>
-                            <TemparatureGraph tdWeather={tdWeather} />
-                            <WeatherTable tdWeather={tdWeather} />
-                        </Box>
-                    </Box>
-                </Paper>
-            </Grid>
+                <Grid item>
+                    날짜 :   {tdWeather[0].fcst_date}
+                </Grid>
+            </Paper>
+        </Grid>
+        <Paper>
+            <Box>
+                <Box>
+                    <TemparatureGraph tdWeather={tdWeather} />
+                    <WeatherTable tdWeather={tdWeather} />
+                </Box>
+            </Box>
+        </Paper>
+    </Grid>}
+           
         </div>
     );
 };

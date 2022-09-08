@@ -162,20 +162,6 @@ export const WeatherTable = ({ tdWeather }) => {
 
                 <Table>
                     <tbody>
-
-                    <TableRow className='row-style'>
-                        <TableCell className="header" variant="head">
-                            <h1 className="head">습도</h1>
-                        </TableCell>
-                        {tdWeather.map((item, idx) => (
-                            <TableCell
-
-                                className='tableCell'
-                                key={idx}>
-                                {item.fcst_reh} hmd
-                            </TableCell>
-                        ))}
-                    </TableRow>
                     <TableRow className='row-style'>
                         <TableCell className="header" variant="head" >
                             <h1 className="head" >강수확률</h1>

@@ -35,6 +35,8 @@ public class WeatherDTO {
     private String fcst_pty;
     //항구이름
     private String fcst_harbor_name;
+    //기온
+    private String fcst_tmp;
 
 
     public WeatherDTO(final WeatherEntity entity){
@@ -49,6 +51,7 @@ public class WeatherDTO {
         this.fcst_sky = entity.getFcstSky();
         this.fcst_pty = entity.getFcstPty();
         this.fcst_harbor_name = entity.getHarborName();
+        this.fcst_tmp = entity.getFcstTmp();
     }
 
 }

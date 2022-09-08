@@ -40,16 +40,9 @@ export const NavBar = () => {
     if( { Authorization: localStorage.getItem("Authorization") }){
       setIsLogined(false);
     }})
-
-
-
   const changePage = (page) => {
     navigate("`${page.link}`")
   }
-
-
-
-
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -59,11 +52,7 @@ export const NavBar = () => {
   };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
-
   };
-
-
-
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -115,7 +104,7 @@ export const NavBar = () => {
 
   return (
     //로고 클릭 버튼(이름)
-    <AppBar position="static">
+    <AppBar position="static" style={{ background: '#2E3B55' }}>
       <Container maxWidth="100vw">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
