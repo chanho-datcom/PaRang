@@ -12,7 +12,7 @@ class Date{
 export class DateStore{
     rootStore;
 
-    dates = [];
+    dates="";
 
     constructor(root) {
         makeObservable(this, {
@@ -24,8 +24,7 @@ export class DateStore{
 
     }
     changeDate(date){
-        console.log(date);
         this.dates= date;
-
+        console.log(this.dates);
     }
 }

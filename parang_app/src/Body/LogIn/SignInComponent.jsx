@@ -4,10 +4,13 @@ import { Button, Grid, TextField, Typography } from '@mui/material'
 import { Container } from '@mui/system'
 import axios from 'axios'
 import {API_BASE_URL} from '../../config/API-Config'
+import {useStores} from "../../states/Context";
 
 function SignInComponent() {
   const navigate = useNavigate();
+  const {dateStore} = useStores();
 
+  console.log(dateStore.dates);
   const signIn= (UserDTO)=> {
     axios({
       url : API_BASE_URL+"/user/signin",

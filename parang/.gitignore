@@ -39,4 +39,4 @@ AWSConfig.java
 .vscode/
 
 
-*.properties
+*.yml

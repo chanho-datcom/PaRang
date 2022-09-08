@@ -10,61 +10,55 @@ import { Button } from "@mui/material";
 import { Container } from "@mui/material";
 import { Construction, Key } from '@mui/icons-material';
 import FishingInfoMap from './FishingInfoMap';
+import {useStores} from "../../states/Context";
+import {observer, useObserver} from 'mobx-react';
 
 
-const LocationSelect = ({ setPortName }) => {
+function useLocationData(){
+    const { countyStore } = useStores()
 
+    return useObserver(()=>({
+        counties : countyStore.counties,
+        cities : countyStore.cities,
+        harbors : countyStore.harbors,
+        harbor : countyStore.harbor,
+        county : countyStore.county,
+        city : countyStore.city
+    }))
+}
+
+const LocationSelect = () => {
+    const { counties, cities, harbors, harbor, city, county } = useLocationData()
+    const {dateStore} = useStores();
+    const {countyStore} = useStores();
     const [dateValue, setDateValue] = useState(new Date());
     const targetDateValue = moment(dateValue).format("YYYYMMDD");
-    const [county, setCounty] = useState({
-        부산광역시: {
-            서구: { 송정항: "35.129" },
-        },
-        제주특별자치도: {
-            제주시: { 우도항: "33.126" },
-            서귀포시: { 서귀포항: "33.126" }
-        },
-        인천광역시: {
-            시흥시: { 오이도항: "37.126" }
-        },
-        충청남도: {
-            서산시: { 삼길포항: "37.126" }
-        },
-        강원도: {
-            고성군: { 아야진항: "38.128", 씨발항: "35.123" },
-            강릉시: { 강릉항: "37.128" }
-        }
-    });
 
-    const findByKey = (obj, value) => {
-        for (let key in obj) {
-            if (key === value) {
-                return key;
-            }
-        }
-    }
+    useEffect(()=>{
+        dateStore.changeDate(targetDateValue);
+    },[dateValue])
 
-    const [city, setCity] = useState({});
-    const [harbor, setHarbor] = useState({});
-    const [locationArray, setLocationArray] = useState([]);
+
 
 
     const onChange = (e) => {
-        setCity(county[findByKey(county, e.target.value)]);
+        //setCity(county[findByKey(county, e.target.value)]);
+        countyStore.setCounty(e.target.value);
+
     };
 
     //시군구 onchange
     const finalSelect = (e) => {
-        setHarbor(city[findByKey(city, e.target.value)]);
+        countyStore.setCity(e.target.value);
     };
-
-    const testtest = (e) => {
-        console.log("함수실행됨")
-        setPortName(e.target.value)
+    const clearAddress = (e)=>{
+        e.preventDefault();
+        countyStore.setCounty("");
     }
 
 
-    return (
+
+        return (
 
         <div>
             <Calendar onChange={setDateValue} value={dateValue}
@@ -77,18 +71,20 @@ const LocationSelect = ({ setPortName }) => {
                 <Select
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
-                    // value={county2}
+                    value={county}
                     onChange={onChange}
                     label="도,광역시"
                 >
                     <MenuItem value={"default"} disabled>
                         <em>도,광역시를 선택하세요</em>
                     </MenuItem>
-                    {Object.keys(county).map((cti, idx) => {
+                    {counties.map((cti, idx)=>{
                         return (
-                            <MenuItem key={idx} value={cti}>{cti}</MenuItem>
+                            <MenuItem key={idx} value={ Object.keys(cti)[0]}>{ Object.keys(cti)[0]}</MenuItem>
+
                         )
                     })}
+
                 </Select>
             </FormControl>
             <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
@@ -96,14 +92,14 @@ const LocationSelect = ({ setPortName }) => {
                 <Select
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
-                    // value={city2}
+                    value={city}
                     onChange={finalSelect}
-                    label="시,군구"
+                    label="시,군,구"
                 >
                     <MenuItem value="default" disabled>
                         <em>시,군,구를 선택하세요</em>
                     </MenuItem>
-                    {Object.keys(city).map((ct, idx) => {
+                    {Object.keys(cities).map((ct, idx) => {
                         return (
                             <MenuItem key={idx} value={ct}>{ct}</MenuItem>
                         )
@@ -115,22 +111,23 @@ const LocationSelect = ({ setPortName }) => {
                 <Select
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
-                    onChange={testtest}
+                    onChange={(e)=>{countyStore.setHarbor(e.target.value)}}
                     label="항구"
+                    value ={harbor}
                 >
                     <MenuItem value="default" disabled>
                         <em>항구를 선택하세요</em>
                     </MenuItem>
-                    {Object.keys(harbor).map((hb, idx) => {
+                    {Object.keys(harbors).map((hb, idx) => {
                         return (
                             <MenuItem key={idx} value={hb}>{hb}</MenuItem>
                         )
                     })}
                 </Select>
             </FormControl>
-            <Button>선택완료</Button>
+            <Button onClick={clearAddress}>초기화</Button>
         </div>
     );
 
 }
-export default LocationSelect;
+export default  LocationSelect;

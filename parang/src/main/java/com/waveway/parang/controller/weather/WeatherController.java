@@ -89,11 +89,7 @@ public class WeatherController {
                             }
                             weatherService.create(weatherEntity);
                         } else if (obj.getString("fcstDate").equals(tomorrow)) {
-                            if(!obj.getString("fcstTime").equals(weatherEntity.getFcstTime())){
-
-                                weatherEntity = new WeatherEntity();
-
-                            }
+                            weatherEntity = getFcstTimeEquals(obj, weatherEntity);
                             weatherEntity.setHarborName(HARBOR[i]);
                             weatherEntity.setFcstDate(obj.getString("fcstDate"));
                             weatherEntity.setFcstTime(obj.getString("fcstTime"));
@@ -125,9 +121,10 @@ public class WeatherController {
                             }
                             weatherService.create(weatherEntity);
                         } else if (obj.getString("fcstDate").equals(twoDaysLater)) {
-                            if(!obj.getString("fcstTime").equals(weatherEntity.getFcstTime())){
-                                weatherEntity = new WeatherEntity();
-                            }
+//                            if(!obj.getString("fcstTime").equals(weatherEntity.getFcstTime())){
+//                                weatherEntity = new WeatherEntity();
+//                            }
+                            weatherEntity = getFcstTimeEquals(obj, weatherEntity);
                             weatherEntity.setHarborName(HARBOR[i]);
                             weatherEntity.setFcstDate(obj.getString("fcstDate"));
                             weatherEntity.setFcstTime(obj.getString("fcstTime"));

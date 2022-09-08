@@ -72,9 +72,6 @@ export const VerticalTabs = ({ setPortName, tdWeather, city, harbor, setCity, se
     const displayStyle = {
         display: 'block'
     }
-
-    console.log("버티컬")
-
     return (
 
         <Grid>
@@ -94,31 +91,31 @@ export const VerticalTabs = ({ setPortName, tdWeather, city, harbor, setCity, se
                         spacing={2}
                     >
                         <Tab
-                            onClick={() => { setPutComponent(<HowToUse setPortName={setPortName} tdWeather={tdWeather} setCity={setCity} setHarbor={setHarbor} city={city} harbor={harbor} />) }}
+                            onClick={() => { setPutComponent(<HowToUse setPortName={setPortName} tdWeather={tdWeather} />) }}
                             label="사용하기"{...a11yProps(0)} >
                         </Tab>
                         <Tab
                             sx={{ width: "100%", alignContent: 'left', p: 0, }}
                             icon={<HiOutlineMap style={{ fontSize: "25px", color: "#AFC9DC" }} />}
-                            onClick={() => { setPutComponent(<LocationSelect setPortName={setPortName} tdWeather={tdWeather} setCity={setCity} setHarbor={setHarbor} city={city} harbor={harbor} />) }}
+                            onClick={() => { setPutComponent(<LocationSelect tdWeather={tdWeather}  />) }}
                             label="지역 선택"{...a11yProps(1)} >
                         </Tab>
                         <Tab
                             sx={{ width: "100%", alignContent: 'left', p: 0 }}
                             icon={<WiDaySunnyOvercast style={{ fontSize: "25px", color: "blue" }} />}
-                            onClick={() => { setPutComponent(<FishingWeather setPortName={setPortName} tdWeather={tdWeather} />) }}
+                            onClick={() => { setPutComponent(<FishingWeather tdWeather={tdWeather} />) }}
                             label="기상 정보"{...a11yProps(2)} >
                         </Tab>
                         <Tab
                             sx={{ width: "100%", alignContent: 'left', p: 0 }}
                             icon={<GiFishingBoat style={{ fontSize: "25px", color: "blue" }} />}
-                            onClick={() => { setPutComponent(<FishingBoat setPortName={setPortName} tdWeather={tdWeather} btList={btList} />) }}
+                            onClick={() => { setPutComponent(<FishingBoat  tdWeather={tdWeather} btList={btList} />) }}
                             label="배 정보"{...a11yProps(3)} >
                         </Tab>
                         <Tab
                             sx={{ width: "100%", alignContent: 'left', p: 0 }}
                             icon={<GiFishingPole style={{ fontSize: "25px", color: "blue" }} />}
-                            onClick={() => { setPutComponent(<ShowMoreFishingInfo setPortName={setPortName} tdWeather={tdWeather} />) }}
+                            onClick={() => { setPutComponent(<ShowMoreFishingInfo  tdWeather={tdWeather} />) }}
                             label="추천정보"{...a11yProps(4)} >
                         </Tab>
                     </Tabs>
