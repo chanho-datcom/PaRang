@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Calendar;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -27,9 +28,6 @@ public class FeedEntity extends BaseTimeEntity  {
     @Column(name = "board_content",length = 255,nullable = true)
     private String boardContent;
 
-    @Column(name = "board_category",length = 255,nullable = true)
-    private String boardCategory;
-
     @Column(name = "board_writer_id",nullable = true)
     private Long boardWriterId;
 
@@ -44,5 +42,8 @@ public class FeedEntity extends BaseTimeEntity  {
 
     @Column(name = "board_img",length = 255,nullable = true)
     private String boardImg;
+    @Column(name="board_tag_uuid", length = 255,nullable = true)
+    private String tagIdentifier;
+
 
 }

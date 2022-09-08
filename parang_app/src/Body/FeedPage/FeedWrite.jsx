@@ -16,7 +16,8 @@ import Prac from '../../Prac';
 import axios from 'axios';
 import { API_BASE_URL } from '../../config/API-Config';
 import { AvatarComponent } from '../../ComponentList/AvatarComponent';
-
+import styled from 'styled-components'
+import uuid from 'react-uuid';
 
 export const FeedWrite = () => {
 
@@ -33,29 +34,50 @@ export const FeedWrite = () => {
       })
       .catch();
   }, []);
-
-
-  const FeedWirteAxi = (feedData) => {
-    axios({
-      url: API_BASE_URL + "/feedAll/feedwrite",
-      method: 'post',
-      headers: { Authorization: localStorage.getItem("Authorization") },
-      data: feedData
-    }).then((response) => {
-      console.log(response);
-    })
+  const FeedWriteAxi = (feedData) =>{
+    axios.all([
+      axios.post(API_BASE_URL+'/feedAll/feedwrite', { 
+        boardTitle: feedData.boardTitle,
+        boardContent: feedData.boardContent,
+        boardWriterNickName: feedData.boardWriterNickName,
+        boardWriterId: feedData.boardWriterId,
+        tagIdentifier : feedData.tagIdentifier
+      },{
+        headers: { Authorization: localStorage.getItem("Authorization") }
+    }),
+    axios.post(API_BASE_URL+'/tag/create', {
+        tagIdentifier : feedData.tagIdentifier,
+        boardTag : feedData.boardTag
+      }
+    ,{
+      headers: { Authorization: localStorage.getItem("Authorization") }
+  })
+  ])
   }
+
+  // const FeedWirteAxi = (feedData) => {
+  //   axios({
+  //     url: API_BASE_URL + "/feedAll/feedwrite",
+  //     method: 'post',
+  //     headers: { Authorization: localStorage.getItem("Authorization") },
+  //     data: feedData
+  //   }).then((response) => {
+  //     console.log(response);
+  //   })
+  // }
 
   const FeedWriteAct = (e) => {
     const data = new FormData(e.target);
+    const boardTitle = data.get("boardTitle")
     const feedContent = data.get("feedContent");
-    console.log(feedContent);
-    console.log(userInfo.userNickName);
-    console.log(userInfo.userId);
-    FeedWirteAxi({
+    e.preventDefault();
+    FeedWriteAxi({
+      boardTitle: boardTitle,
       boardContent: feedContent,
       boardWriterNickName: userInfo.userNickName,
-      boardWriterId: userInfo.userId
+      boardWriterId: userInfo.userId,
+      tagIdentifier : uuid(),
+      boardTag: tagList
     });
   }
 
@@ -73,53 +95,34 @@ export const FeedWrite = () => {
   };
 
 
-  const [input, setInput] = useState('');
-  const [lists, setLists] = useState([]);
-  const [nextId, setNextId] = useState(0);
-  const inputName = useRef(null);
-  
-  const settinghHash = (e)=>{
-    setInput(e.target.value);
-  };
 
-  const okHash = (e)=>{
-    e.preventDefault();
-    const about_lists = lists.concat({
-      id: nextId,
-      text : input
-    });
-    setNextId(nextId + 1 );
-    console.log(nextId);
+  /**
+   * 카테고리
+   */
+  const [tagItem, setTagItem] = useState('')
+  const [tagList, setTagList] = useState([])
 
-    setLists(about_lists);
-    setInput('');
+  const onKeyPress = (e) => {
+    if (e.target.value.length !== 0 && e.key === ' ') {
+      submitTagItem()
+
+    }
   }
 
-  const input_list = lists.map((list)=>{
-    <li
-    key = {list.id}
-    onDoubleClick={()=>removeList(list.id)}
-    onClick={()=>modify(list.id)}
-    >
-      {list.text}
-      </li>
-  });
-
-  const removeList =(id)=>{
-    const about_lists = lists.filter((list)=> list.id !== id);
-    setLists(about_lists);
+  const submitTagItem = () => {
+    let updatedTagList = [...tagList]
+    updatedTagList.push(tagItem.trim())
+    setTagList(updatedTagList)
+    setTagItem('')
+    console.log(updatedTagList)
   }
 
-  const modify = (id)=>{
-    lists.map((list)=>{
-      if(list.id === id){
-        inputName.current.focus();
-        list.text = inputName.current.value;
-      }
-    });
-    setLists(lists);
-    setInput('');
-  };
+  const deleteTagItem = e => {
+    const deleteTagItem = e.target.parentElement.firstChild.innerText
+    const filteredTagList = tagList.filter(tagItem => tagItem !== deleteTagItem)
+    setTagList(filteredTagList)
+  }
+
 
 
   return (
@@ -132,36 +135,6 @@ export const FeedWrite = () => {
                 <AvatarComponent />
               </Avatar>
             }
-            action={
-              <IconButton aria-label="settings">
-                <Tooltip title="Open settings">
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  sx={{ mt: '45px' }}
-                  id="menu-appbar"
-                  anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}>
-                  <MenuItem >
-                    <MenuItem value="Profile">Profile</MenuItem>
-                    <MenuItem value="Account">Account</MenuItem>
-                    <MenuItem value="Dashboard">Dashboard</MenuItem>
-                  </MenuItem>
-                </Menu>
-              </IconButton>
-            }
             title={userInfo.userNickName}
             subheader=" 게시글 작성한 날짜"
           />
@@ -170,35 +143,47 @@ export const FeedWrite = () => {
               <Box sx={{ height: '300px', padding: 2 }}>
                 <Typography variant="body2" color="text.secondary">
                   <TextField
+                    variant='standard'
+                    required
+                    fullWidth
+                    id='standard-required'
+                    name='boardTitle'
+                    label="제목"
+                  >
+                  </TextField>
+                  <TextField
                     variant='outlined'
                     required
                     fullWidth
-                    id='feedContent'
                     name='feedContent'
                     label="글 작성"
                   >
                   </TextField>
-                  <TextField
-                    required
-                    id="outlined-required"
-                    name='boardCategory'
-                    label="해시태그"
-                  />
-                  <form onSubmit={okHash}>
-                  <TextField
-                  name = "list"
-                  type = "text"
-                  placeholder='해시태그 작성하기'
-                  value={input}
-                  onChange={settinghHash}
-                  ref={inputName}
-                  />
-                  <button onClick={okHash}>해시 추가</button>
-                  </form>
-                  <Button type='submit' onClick={FeedWriteAct}> 작성완료</Button>
-               <ul>{input_list}</ul>ddd여긴오디
+                  <WholeBox>
+                    <title text='Tag' />
+                    <TagBox>
+                      {tagList.map((tagItem, index) => {
+                        return (
+                          <TagItem key={index}>
+                            <Text>{tagItem}</Text>
+                            <Button onClick={deleteTagItem}>취소</Button>
+                          </TagItem>
+                        )
+                      })}
+                      <TagInput
+                        type='text'
+                        placeholder='카테고리 입력'
+                        name='hashTag'
+                        tabIndex={2}
+                        onChange={e => setTagItem(e.target.value)}
+                        value={tagItem}
+                        onKeyPress={onKeyPress}
+                      />
+                    </TagBox>
+                  </WholeBox>
                 </Typography>
               </Box>
+              <Button type='submit' onClick={FeedWriteAct}> 작성완료</Button>
             </Paper>
           </form>
           <Collapse in={expanded} timeout="auto" unmountOnExit>
@@ -211,3 +196,49 @@ export const FeedWrite = () => {
 
 
 export default FeedWrite;
+
+const WholeBox = styled.div`
+  padding: 10px;
+  height: 100vh;
+`
+
+const TagBox = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  min-height: 50px;
+  margin: 10px;
+  padding: 0 10px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+
+  &:focus-within {
+    border-color: tomato;
+  }
+`
+
+const TagItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 5px;
+  padding: 5px;
+  background-color: tomato;
+  border-radius: 5px;
+  color: white;
+  font-size: 13px;
+`
+
+const Text = styled.span``
+
+
+
+const TagInput = styled.input`
+  display: inline-flex;
+  min-width: 150px;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: text;
+`
+

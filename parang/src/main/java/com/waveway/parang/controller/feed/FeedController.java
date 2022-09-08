@@ -3,6 +3,7 @@ package com.waveway.parang.controller.feed;
 
 import com.waveway.parang.dto.FeedDTO;
 import com.waveway.parang.dto.UserDTO;
+import com.waveway.parang.model.BoardTagEntity;
 import com.waveway.parang.model.FeedEntity;
 import com.waveway.parang.model.UserEntity;
 import com.waveway.parang.service.feed.FeedService;
@@ -44,16 +45,19 @@ public class FeedController {
         log.info( "작성자 고유 id " + userId);
         FeedEntity feed = FeedDTO.toEntity(feedDTO);
 
+        log.info(" 피드"+String.valueOf(feed));
+        log.info("디티오"+String.valueOf(feedDTO));
 
         FeedEntity feedData = feedService.save(feed);
-
         UserEntity user = userService.getUserInfo(userId);
+
+        log.info(feedDTO.getBoardContent());
+
 
         final FeedDTO responseFeedDTO = FeedDTO.builder()
                 .boardId(feedData.getBoardId())
                 .boardWriterNickName(feed.getBoardWriterNickName())
                 .boardWriterId(user.getUserId())
-                .boardCategory(feedData.getBoardCategory())
                 .boardContent(feedData.getBoardContent())
                 .boardLikes(feedData.getBoardLikes())
                 .boardHates(feedData.getBoardHates())

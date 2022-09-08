@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class FileController {
@@ -28,7 +29,7 @@ public class FileController {
         List<String> imagePathList = new ArrayList<>();
 
         for (MultipartFile multipartFile : multipartFileList) {
-            String originalName = multipartFile.getOriginalFilename(); // 파일 이름
+            String originalName = UUID.randomUUID()+multipartFile.getOriginalFilename(); // 파일 이름
             long size = multipartFile.getSize(); // 파일 크기
 
             ObjectMetadata objectMetaData = new ObjectMetadata();
