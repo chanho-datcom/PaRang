@@ -1,6 +1,5 @@
 package com.waveway.parang.model;
 
-import com.waveway.parang.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +13,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "user")
-public class UserEntity extends BaseTimeEntity {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JoinColumn(name = "user_id")
@@ -47,7 +46,4 @@ public class UserEntity extends BaseTimeEntity {
     @Column(name="user_role",length = 255,nullable = true)
     private String userRole;
 
-    public void updateInfo(UserDTO userDTO){
-        this.userNickName = userDTO.getUserNickName();
-    }
 }

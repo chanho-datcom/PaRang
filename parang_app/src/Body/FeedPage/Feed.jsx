@@ -11,14 +11,10 @@ import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Grid, Box, Paper, TextField, MenuItem, Tooltip, Menu } from '@mui/material';
+import { Grid, Box, Paper } from '@mui/material';
 import FeedService from './FeedService';
-import FeedWrite from '../FeedPage/FeedWrite';
+
 import { useNavigate } from "react-router-dom";
-import { AvatarComponent } from '../../ComponentList/AvatarComponent';
-import axios from 'axios';
-import { API_BASE_URL } from '../../config/API-Config';
-import { useState } from 'react';
 
 
 
@@ -26,35 +22,15 @@ export default function Feed() {
   const [expanded] = React.useState(false);
   const navigate = useNavigate();
 
-
-
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
   //게시물 관련
 
   const [board, setBoard] = React.useState([]);
-  const [boardTag, setBoardTag] = useState([]);
   React.useEffect(() => {
-    axios.all([
-      axios.get(API_BASE_URL+"/feedAll") 
-    .then((response)=>{
+    FeedService.getFeed().then((response) => {
       setBoard(response.data);
-    }),
-    axios.get(API_BASE_URL + "/tag/tagAll", {    
-    }).then((response)=>{
-      setBoardTag(response.data);
-    })
-  ])}, []);
-
-  
+      console.log(response.data);
+    });
+  }, []);
 
   ////////////////////////////////////////
 
@@ -62,57 +38,28 @@ export default function Feed() {
   return (
       <Grid container>
         <Grid width={'70vw'} alignItems={'justify'}>
-          <FeedWrite />
-          {board.reverse().map((item, idx) => { return <Card sx={{ width: '100%', height: '80vh' }}>
-
+          {/* <button onClick={navigate("/")}>ddd</button> */}
+          {board.map((item, idx) => { return <Card sx={{ width: '100%', height: '80vh' }}>
             <CardHeader
                 // {/* 프로필 이미지  */}
                 avatar={
                   <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                    <AvatarComponent />
+                    불신지옥
                   </Avatar>
                 }
                 action={
                   <IconButton aria-label="settings">
-              <IconButton aria-label="settings">
-                <Tooltip title="Open settings">
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <MoreVertIcon />
                   </IconButton>
-                </Tooltip>
-                <Menu
-                  sx={{ mt: '45px' }}
-                  id="menu-appbar"
-                  anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}>
-                  <MenuItem >
-                    <MenuItem value="Profile">수정하기</MenuItem>
-                    <MenuItem value="Account">삭제하기</MenuItem>
-                  </MenuItem>
-                </Menu>
-              </IconButton>
-            
-                  </IconButton>
                 }
-                title={item.boardWriterNickName}
-                subheader= {item.CreatedDate}
+                title={item.boardId}
+                subheader= {item.boardUpdatedTime}
             >
             </CardHeader>
 
             <Paper elevation={3} height={'60%'} padding={2}>
               <Box sx={{ height: '300px', padding: 2 }}>
                 <Typography variant="body2" color="text.secondary">
-                {/* <img src={item.boardImg} alt="img" />  */}
                   {item.boardContent}
                 </Typography>
               </Box>
@@ -127,15 +74,8 @@ export default function Feed() {
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
             </Collapse>
-            {/* 댓글 TextField */}
-            <TextField
-              variant='outlined'
-              required
-              fullWidth
-              label="댓글 작성"
-            >
-          </TextField>
           </Card>})}
+
         </Grid>
       </Grid>
   );
