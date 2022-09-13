@@ -1,18 +1,11 @@
 
-import React, { useRef, useState, Component } from 'react'
+import React, { useState } from 'react'
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Grid, Box, Paper, TextField, Button, Menu, MenuItem, Tooltip } from '@mui/material';
-import Prac from '../../Prac';
 import axios from 'axios';
 import { API_BASE_URL } from '../../config/API-Config';
 import { AvatarComponent } from '../../ComponentList/AvatarComponent';
@@ -34,25 +27,29 @@ export const FeedWrite = () => {
       })
       .catch();
   }, []);
-  const FeedWriteAxi = (feedData) =>{
+  const FeedWriteAxi = (feedData) => {
+    console.log(feedData.boardContent)
+
     axios.all([
-      axios.post(API_BASE_URL+'/feedAll/feedwrite', { 
+      axios.post(API_BASE_URL + '/feedAll/feedwrite', {
         boardTitle: feedData.boardTitle,
         boardContent: feedData.boardContent,
         boardWriterNickName: feedData.boardWriterNickName,
         boardWriterId: feedData.boardWriterId,
-        tagIdentifier : feedData.tagIdentifier
-      },{
+        tagIdentifier: feedData.tagIdentifier
+      }, {
         headers: { Authorization: localStorage.getItem("Authorization") }
-    }),
-    axios.post(API_BASE_URL+'/tag/create', {
-        tagIdentifier : feedData.tagIdentifier,
-        boardTag : feedData.boardTag
+      }),
+      axios.post(API_BASE_URL + '/tag/create', {
+        tagIdentifier: feedData.tagIdentifier,
+        boardTag: feedData.boardTag
       }
-    ,{
-      headers: { Authorization: localStorage.getItem("Authorization") }
-  })
-  ])
+        , {
+          headers: { Authorization: localStorage.getItem("Authorization") }
+        })
+    ]).catch(() => {
+      console.log("feedwrite작동안함")
+    })
   }
 
   // const FeedWirteAxi = (feedData) => {
@@ -66,19 +63,24 @@ export const FeedWrite = () => {
   //   })
   // }
 
+
   const FeedWriteAct = (e) => {
-    const data = new FormData(e.target);
+    let test = e.target
+    const data = new FormData(document.getElementById('formData'));
+    console.log(data)
     const boardTitle = data.get("boardTitle")
     const feedContent = data.get("feedContent");
+
     e.preventDefault();
     FeedWriteAxi({
       boardTitle: boardTitle,
       boardContent: feedContent,
       boardWriterNickName: userInfo.userNickName,
       boardWriterId: userInfo.userId,
-      tagIdentifier : uuid(),
+      tagIdentifier: uuid(),
       boardTag: tagList
     });
+
   }
 
 
@@ -138,50 +140,50 @@ export const FeedWrite = () => {
             title={userInfo.userNickName}
             subheader=" 게시글 작성한 날짜"
           />
-          <form onSubmit={FeedWriteAct}>
+          <form onSubmit={FeedWriteAct} id="formData">
             <Paper elevation={3} height={'60%'} padding={2}>
               <Box sx={{ height: '300px', padding: 2 }}>
-                <Typography variant="body2" color="text.secondary">
-                  <TextField
-                    variant='standard'
-                    required
-                    fullWidth
-                    id='standard-required'
-                    name='boardTitle'
-                    label="제목"
-                  >
-                  </TextField>
-                  <TextField
-                    variant='outlined'
-                    required
-                    fullWidth
-                    name='feedContent'
-                    label="글 작성"
-                  >
-                  </TextField>
-                  <WholeBox>
-                    <title text='Tag' />
-                    <TagBox>
-                      {tagList.map((tagItem, index) => {
-                        return (
-                          <TagItem key={index}>
-                            <Text>{tagItem}</Text>
-                            <Button onClick={deleteTagItem}>취소</Button>
-                          </TagItem>
-                        )
-                      })}
-                      <TagInput
-                        type='text'
-                        placeholder='카테고리 입력'
-                        name='hashTag'
-                        tabIndex={2}
-                        onChange={e => setTagItem(e.target.value)}
-                        value={tagItem}
-                        onKeyPress={onKeyPress}
-                      />
-                    </TagBox>
-                  </WholeBox>
-                </Typography>
+
+                <TextField
+                  variant='standard'
+                  required
+                  fullWidth
+                  id='standard-required'
+                  name='boardTitle'
+                  label="제목"
+                >
+                </TextField>
+                <TextField
+                  variant='outlined'
+                  required
+                  fullWidth
+                  name='feedContent'
+                  label="글 작성"
+                >
+                </TextField>
+                <WholeBox>
+
+                  <TagBox>
+                    {tagList.map((tagItem, index) => {
+                      return (
+                        <TagItem key={index}>
+                          <Text>{tagItem}</Text>
+                          <Button onClick={deleteTagItem}>취소</Button>
+                        </TagItem>
+                      )
+                    })}
+                    <TagInput
+                      type='text'
+                      placeholder='카테고리 입력'
+                      name='hashTag'
+                      tabIndex={2}
+                      onChange={e => setTagItem(e.target.value)}
+                      value={tagItem}
+                      onKeyPress={onKeyPress}
+                    />
+                  </TagBox>
+                </WholeBox>
+
               </Box>
               <Button type='submit' onClick={FeedWriteAct}> 작성완료</Button>
             </Paper>

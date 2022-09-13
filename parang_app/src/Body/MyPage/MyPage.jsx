@@ -2,17 +2,15 @@ import React, { useState } from 'react'
 import { Container } from '@mui/material';
 import { Grid, Box, Paper, Typography } from '@mui/material';
 import { AvatarComponent } from '../../ComponentList/AvatarComponent';
-import { TrendingUpRounded } from '@mui/icons-material';
-import { bgcolor } from '@mui/system';
 import { InsetDividersComponent } from '../../ComponentList/InsetDividersComponent';
-import AccountUpdateComponent from '../../MyPageComponent/AccountUpdateComponent';
+import { BasicUserProfile } from './BasicUserProfile';
 import { API_BASE_URL } from '../../config/API-Config';
 import axios from 'axios';
 
 
 export const MyPage = () => {
 
-  const [putComponent, setPutComponent] = useState(<AccountUpdateComponent />);
+  const [putComponent, setPutComponent] = useState(<BasicUserProfile />);
   const [userInfo, setUserInfo] = useState([]);
   React.useEffect(() => {
     axios

@@ -1,5 +1,3 @@
-import { ConnectingAirportsOutlined } from "@mui/icons-material"
-
 export const length = () => {
   let payload2 = document.getElementById('path2')
   let content1 = document.getElementById('content1')
@@ -21,19 +19,10 @@ export const length = () => {
   const scrollHandler = () => {
     const scrollY = window.scrollY + (window.innerHeight * 0.8);
     payload2.style.strokeDashoffset = calcDashoffset(scrollY, content1, pathLength);
-    // console.log(pathLength)
   }
 
   window.addEventListener('scroll', scrollHandler);
 
   payload2.style.strokeDasharray = pathLength;
-  // payload2.style.strokeDashoffset = pathLength;
   payload2.style.strokeDashoffset = calcDashoffset(window.innerHeight * 0.8, content1, pathLength);
-
-
-  // let svgLength = path.current.getTotalLength();
-
-
-  // console.log(svgLength)
-  // return svgLength
 }

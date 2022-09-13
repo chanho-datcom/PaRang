@@ -118,7 +118,7 @@ export const NavBar = () => {
   return (
     //로고 클릭 버튼(이름)
     <AppBar position="static" style={{ background: '#2E3B55' }}>
-      <Container maxWidth="100vw">
+      <Container maxWidth="100vw"  style={{ zIndex : '5' }}>
         <Toolbar disableGutters >
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography

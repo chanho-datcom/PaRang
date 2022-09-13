@@ -20,9 +20,8 @@ import java.util.Date;
 @Service
 // 토큰 생성, 위조여부 확인
 public class TokenProvider {
-
     @Autowired
-    private static ConstructorProperties cp;
+    private ConstructorProperties cp;
 
     private String createSecretKey(){
         String SECRET_KEY = cp.getJwtSecretKey();
