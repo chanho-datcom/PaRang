@@ -11,7 +11,6 @@ export const LastButton = () => {
     const [test, setTest] = useState(false);
 
     useEffect(() => {
-        console.log("로티 이펙트 실행")
         Lottie.loadAnimation({
             container: container,
             renderer: "svg",

@@ -2,10 +2,8 @@ import React from 'react';
 import {useEffect, useState} from "react";
 
 import {Box, Button, Grid} from "@mui/material";
-import LocationSelect from './LocationSelect';
 import {useStores} from "../../states/Context";
 import {useObserver} from "mobx-react";
-import { geocoding } from "./mapFunctions/KakaoGeoCoder";
 
 
 
@@ -41,6 +39,10 @@ const FishingInfoMap = () => {
     // 마커를 담을 배열입니다
 
     useEffect(()=> {
+       
+        const script = document.createElement('script');
+        script.url = process.env.REACT_APP_KAKAO_APP_URL;
+
         let position = new kakao.maps.LatLng(latlng[0], latlng[1]);
         let ps = new kakao.maps.services.Places();
         let mapOptions = {

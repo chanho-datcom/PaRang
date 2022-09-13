@@ -1,9 +1,8 @@
 export const length = () => {
   let payload2 = document.getElementById('path2')
   let content1 = document.getElementById('content1')
-  console.log(content1)
-
-  console.log(payload2)
+  
+ 
   let pathLength = payload2.getTotalLength();
 
 
