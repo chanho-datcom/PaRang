@@ -1,7 +1,9 @@
 package com.waveway.parang.httpconnection;
 
+import com.waveway.parang.config.ConstructorProperties;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -9,12 +11,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HttpConnection {
+    @Autowired
+    private static ConstructorProperties cp;
     public static JSONArray getJsonArray(String baseDate, String lat, String lot, String baseTime) {
 
         JSONObject jObject = null;
         try {
             System.out.println("getJsonArray working!!");
-            URL url = new URL("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?base_time="+baseTime+"&nx="+lat+"&serviceKey=()&numOfRows=900&pageNo=1&base_date="+ baseDate +"&ny="+lot+"&dataType=JSON");
+            URL url = new URL("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?base_time="+baseTime+"&nx="+lat+"&serviceKey="+cp.getWeatherServiceKey()+"&numOfRows=900&pageNo=1&base_date="+ baseDate +"&ny="+lot+"&dataType=JSON");
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 
             conn.setRequestMethod("GET"); // http 메서드
