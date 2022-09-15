@@ -12,20 +12,22 @@ import { AvatarComponent } from '../../ComponentList/AvatarComponent';
 import styled from 'styled-components'
 import uuid from 'react-uuid';
 import {useNavigate} from 'react-router-dom';
+import moment from 'moment';
 
 export const FeedWrite = () => {
   const navigate = useNavigate();
   const [expanded] = React.useState(false);
   const [imgs, setImgs] = useState([]);
+  const dateForTaboo = moment(new Date()).format("YYYY-MM-DD")
 
 
-  const [userInfo, setUserInfo] = useState([]);
+  const [userInfo, setUserInfo] = useState({});
   React.useEffect(() => {
-    axios.get(API_BASE_URL + "/user/mypage", {
+    axios.get(API_BASE_URL + "/user/getUserInfo", {
       headers: { Authorization: localStorage.getItem("Authorization") },
     })
       .then((res) => {
-        console.log(res.data);
+        console.log("getUserInfo 성공");
         setUserInfo(res.data);
       })
       .catch();
@@ -56,7 +58,7 @@ export const FeedWrite = () => {
     ]).catch(() => {
       console.log("feedwrite작동안함")
     })
-    navigate("/feedAll")
+    window.location.href="/feedAll"
   }
 
   // const FeedWirteAxi = (feedData) => {
@@ -98,9 +100,6 @@ export const FeedWrite = () => {
   };
 
   const FeedWriteAct = (e) => {
-
-
-
     const data = new FormData(document.getElementById('formData'));
     console.log(data)
     const boardTitle = data.get("boardTitle")
@@ -163,9 +162,11 @@ export const FeedWrite = () => {
 
 
   return (
-    <Grid container>
-      <Grid width={'70vw'} alignItems={'justify'}>
-        <Card sx={{ width: '100%', height: '80vh' }}>
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <Grid container width={'50vw'} padding={0}>
+
+
+        <Card sx={{ width: '100%' }}>
           <CardHeader
             avatar={
               <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -173,12 +174,13 @@ export const FeedWrite = () => {
               </Avatar>
             }
             title={userInfo.userNickName}
-            subheader=" 게시글 작성한 날짜"
+            subheader={dateForTaboo}
           />
           <form onSubmit={FeedWriteAct} id="formData">
-            <Paper elevation={3} height={'60%'} padding={2}>
-              <Box sx={{ height: '300px', padding: 2 }}>
 
+
+            <Grid container direction={"column"} spacing={1} padding={2}>
+              <Grid item>
                 <TextField
                   variant='standard'
                   required
@@ -186,18 +188,27 @@ export const FeedWrite = () => {
                   id='standard-required'
                   name='boardTitle'
                   label="제목"
-                >
-                </TextField>
+                />
+              </Grid>
+              <Grid item>
                 <TextField
                   variant='outlined'
                   required
                   fullWidth
                   name='feedContent'
                   label="글 작성"
-                >
-                </TextField>
-                <img src={imgs}></img>
-                {/*씨발이게뭐였지  */}
+                  rows={10}
+                  multiline
+                />
+              </Grid>
+              <Grid item>
+                {imgs.length === 0 ? <div></div> :
+                  <img width={'100px'} height={'100px'} src={imgs}></img>
+                }
+              </Grid>
+
+              {/*씨발이게뭐였지  */}
+              <Grid item>
                 <Button variant="contained" component="label">
                   파일 첨부
                   <input
@@ -212,10 +223,10 @@ export const FeedWrite = () => {
                     onChange={handleImgUpload}
                   />
                 </Button>
+              </Grid>
 
-
+              <Grid item>
                 <WholeBox>
-
                   <TagBox>
                     {tagList.map((tagItem, index) => {
                       return (
@@ -236,16 +247,20 @@ export const FeedWrite = () => {
                     />
                   </TagBox>
                 </WholeBox>
+              </Grid>
+              <Grid item>
+                <Button type='submit' onClick={FeedWriteAct}> 작성완료</Button>
+              </Grid>
+            </Grid>
 
-              </Box>
-              <Button type='submit' onClick={FeedWriteAct}> 작성완료</Button>
-            </Paper>
+
           </form>
           <Collapse in={expanded} timeout="auto" unmountOnExit>
           </Collapse>
         </Card>
+
       </Grid>
-    </Grid>
+    </div >
   )
 }
 
@@ -253,8 +268,8 @@ export const FeedWrite = () => {
 export default FeedWrite;
 
 const WholeBox = styled.div`
-  padding: 10px;
-  height: 100vh;
+  
+  /* height: 100vh; */
 `
 
 const TagBox = styled.div`
@@ -262,10 +277,10 @@ const TagBox = styled.div`
   align-items: center;
   flex-wrap: wrap;
   min-height: 50px;
-  margin: 10px;
+  width:'100%';
   padding: 0 10px;
   border: 1px solid rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
+  border-radius: 3px;
 
   &:focus-within {
     border-color: tomato;
@@ -279,7 +294,7 @@ const TagItem = styled.div`
   margin: 5px;
   padding: 5px;
   background-color: tomato;
-  border-radius: 5px;
+  border-radius: 3px;
   color: white;
   font-size: 13px;
 `
@@ -290,7 +305,7 @@ const Text = styled.span``
 
 const TagInput = styled.input`
   display: inline-flex;
-  min-width: 150px;
+  min-width: 100%;
   background: transparent;
   border: none;
   outline: none;

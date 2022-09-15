@@ -22,21 +22,24 @@ export default function FeedAll() {
   })
 
 },[checkBoard])
-  return (
-    <div style={{ backgroundColor: '#e2e3e5' }}>
-    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-      <Grid mt={2} columnGap={2} >
+return (
+  <div style={{ backgroundColor: '#e2e3e5', height: '82vh', overflow: 'auto' }}>
 
-      <FeedWrite/>
-        {board.slice().reverse().map((item,idx)=>{
-          return(
-            <Feed key={idx} {...item} setCheckBoard = {setCheckBoard} checkBoard={checkBoard}/>
-          )
-        })}
-
+    <Grid container direction={"column"} display={'flex'} spacing={4} >
+      <Grid item sx={{ justifyContent: 'center' }}>
+        <FeedWrite />
       </Grid>
-    </Box >
+
+      {board.slice().reverse().map((item, idx) => {
+        return (
+          <Grid item sx={{ justifyContent: 'center' }}>
+            <Feed key={idx} {...item} setCheckBoard={setCheckBoard} checkBoard={checkBoard} />
+          </Grid>
+        )
+      })}
+    </Grid>
+
   </div>
 
-  );
+);
 }

@@ -142,6 +142,25 @@ public class UserController {
         return ResponseEntity.ok().body(responseUserDTO);
     }
 
+    @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
+    public ResponseEntity<?> getUserInfo(@AuthenticationPrincipal Long userId){
+
+        UserEntity user = userService.getUserInfo(userId);
+
+        final UserDTO responseUserDTO = UserDTO.builder()
+                .userId(user.getUserId())
+                .userName(user.getUserName())
+                .userNickName(user.getUserNickName())
+                .userProfilePicture(user.getUserProfilePicture())
+                .userPNum(user.getUserPNum())
+                .userEmail(user.getUserEmail())
+                .userAge(user.getUserAge())
+                .userSex(user.getUserSex())
+                .build();
+
+        return ResponseEntity.ok().body(responseUserDTO);
+    }
+
     @PutMapping("/updateinfo")
     public ResponseEntity<?> updateNickName(@AuthenticationPrincipal Long userId, @RequestBody UserDTO userDTO){
         log.info("userId : " + userId);
