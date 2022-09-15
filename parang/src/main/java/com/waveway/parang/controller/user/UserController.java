@@ -123,12 +123,11 @@ public class UserController {
     /**
      * 유저 정보 불러오기
      * */
-    @RequestMapping(value = "/mypage", method = RequestMethod.GET)
-    public ResponseEntity<?> getUserInfo(@AuthenticationPrincipal Long userId){
-        System.out.println(userId);
+    @RequestMapping(value = "/mypage", method = RequestMethod.POST)
+    public ResponseEntity<?> getUserInfo(@RequestBody UserEntity userEntity){
 
-        UserEntity user = userService.getUserInfo(userId);
-
+        UserEntity user = userService.getUserInfo(userEntity.getUserId());
+        System.out.println("hihi" + user.getUserName());
         final UserDTO responseUserDTO = UserDTO.builder()
                 .userId(user.getUserId())
                 .userName(user.getUserName())
@@ -151,11 +150,6 @@ public class UserController {
         userService.update(userId, userDTO);
         return ResponseEntity.ok().build();
     }
-
-
-
-
-
 }
 
 

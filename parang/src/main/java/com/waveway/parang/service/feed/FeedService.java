@@ -1,13 +1,13 @@
 package com.waveway.parang.service.feed;
 
 import com.waveway.parang.dto.FeedDTO;
-import com.waveway.parang.dto.UserDTO;
 import com.waveway.parang.model.BoardTagEntity;
 import com.waveway.parang.model.FeedEntity;
 import com.waveway.parang.repository.FeedRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -32,5 +32,15 @@ public class FeedService {
         return null;
     }
 
+    @Transactional
+    public void updateBoard(FeedDTO feedDTO, Long boardId){
+        FeedEntity findFeed = feedRepository.findByBoardId(boardId);
+        findFeed.updateFeed(feedDTO);
+    }
+
+    @Transactional
+    public void deleteBoard(Long boardId){
+        feedRepository.deleteById(boardId);
+    }
 
 }

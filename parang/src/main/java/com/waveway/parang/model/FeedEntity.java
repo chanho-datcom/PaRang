@@ -1,5 +1,7 @@
 package com.waveway.parang.model;
 
+import com.waveway.parang.dto.FeedDTO;
+import com.waveway.parang.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -44,6 +46,12 @@ public class FeedEntity extends BaseTimeEntity  {
     private String boardImg;
     @Column(name="board_tag_uuid", length = 255,nullable = true)
     private String tagIdentifier;
+
+    public void updateFeed(FeedDTO feedDTO){
+        this.boardTitle = feedDTO.getBoardTitle();
+        this.boardContent = feedDTO.getBoardContent();
+    }
+
 
 
 }

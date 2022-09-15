@@ -4,13 +4,13 @@ import Stack from '@mui/material/Stack';
 import axios from 'axios';
 import { API_BASE_URL } from '../config/API-Config';
 
-export const AvatarComponent = () => {
+export const AvatarComponent = ({boardWriterId}) => {
 
     const [userInfo, setUserInfo] = React.useState([]);
     React.useEffect(() => {
         axios
-            .get(API_BASE_URL + "/user/mypage", {
-                headers: { Authorization: localStorage.getItem("Authorization") },
+            .post(API_BASE_URL + "/user/mypage", {
+                userId : boardWriterId
             })
             .then((res) => {
                 console.log(res.data);

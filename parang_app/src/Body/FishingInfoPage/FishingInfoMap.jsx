@@ -5,13 +5,17 @@ import {Box, Button, Grid} from "@mui/material";
 import {useStores} from "../../states/Context";
 import {useObserver} from "mobx-react";
 import axios from 'axios';
+import { FishingProbability } from './fishingProbability/FishingProbability';
 
 import { drawKakaoMap} from './drawKakaoMap'
+import { useNavigate } from 'react-router-dom';
 
 function useStoreData(){
+    const { searchAreaStore} = useStores();
     const { countyStore } = useStores();
     const { markerStore } = useStores();
     return useObserver(()=>({
+        searchArea : searchAreaStore.searchArea,
         harbor : countyStore.harbor,
         county : countyStore.county,
         city : countyStore.city,
@@ -19,13 +23,15 @@ function useStoreData(){
     }))
 }
 
-const FishingInfoMap = () => {
+const FishingInfoMap = ({setPutComponent}) => {
+    const navigate = useNavigate();
     const [l, setL] = useState([]);
     const { markerStore, pbbStore } = useStores();
     const { searchAreaStore } = useStores();
-    const { harbor, city, county, markers } = useStoreData()
+    const { harbor, city, county, markers, searchArea} = useStoreData()
     const {kakao} = window;
     let map;
+    
 
     let position = new kakao.maps.LatLng(35.88957, 127.95414);
     let ps = new kakao.maps.services.Places();
@@ -87,7 +93,8 @@ const FishingInfoMap = () => {
             kakao.maps.event.addListener(marker, 'click', function() {
                 // 마커 위에 인포윈도우를 표시합니다
                 searchAreaStore.changeArea(markers[i].pbbName);
-                pbbStore.changeVerticalIndex();
+                setPutComponent(<FishingProbability />)
+                navigate("/fishinginfo")
             });
         }
 

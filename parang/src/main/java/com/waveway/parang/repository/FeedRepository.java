@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface FeedRepository extends JpaRepository<FeedEntity, Long> {
-
-
+    FeedEntity findByBoardId(Long boardId);
 }

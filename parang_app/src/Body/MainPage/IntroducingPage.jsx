@@ -49,7 +49,7 @@ export const IntroducingPage = () => {
     }
   })
 
-
+  console.log([])
 
 
   return (

@@ -11,10 +11,13 @@ import { API_BASE_URL } from '../../config/API-Config';
 import { AvatarComponent } from '../../ComponentList/AvatarComponent';
 import styled from 'styled-components'
 import uuid from 'react-uuid';
+import {useNavigate} from 'react-router-dom';
 
 export const FeedWrite = () => {
-
+  const navigate = useNavigate();
   const [expanded] = React.useState(false);
+  const [imgs, setImgs] = useState([]);
+
 
   const [userInfo, setUserInfo] = useState([]);
   React.useEffect(() => {
@@ -36,10 +39,13 @@ export const FeedWrite = () => {
         boardContent: feedData.boardContent,
         boardWriterNickName: feedData.boardWriterNickName,
         boardWriterId: feedData.boardWriterId,
-        tagIdentifier: feedData.tagIdentifier
-      }, {
-        headers: { Authorization: localStorage.getItem("Authorization") }
-      }),
+        tagIdentifier: feedData.tagIdentifier,
+        boardImg: feedData.boardImg
+      },
+        {
+          headers: { Authorization: localStorage.getItem("Authorization") }
+        }),
+
       axios.post(API_BASE_URL + '/tag/create', {
         tagIdentifier: feedData.tagIdentifier,
         boardTag: feedData.boardTag
@@ -50,6 +56,7 @@ export const FeedWrite = () => {
     ]).catch(() => {
       console.log("feedwrite작동안함")
     })
+    navigate("/feedAll")
   }
 
   // const FeedWirteAxi = (feedData) => {
@@ -64,23 +71,51 @@ export const FeedWrite = () => {
   // }
 
 
+  //이미지 업로드 함수
+  const handleImgUpload = (e) => {
+    const nowSelectImgList = e.target.files;
+    console.log(nowSelectImgList);
+    const formData = new FormData();
+
+    for (let i = 0; i < nowSelectImgList.length; i++) {
+      formData.append("multiPratFile", nowSelectImgList[i]);
+    }
+
+    axios.post(API_BASE_URL + '/upload', formData
+      , {
+        headers: { Authorization: localStorage.getItem("Authorization") }
+      })
+      .then((res) => {
+        setImgs(res.data)
+        console.log(res.status)
+      })
+      .catch((err) => { console.log(err) })
+    console.log("1" + nowSelectImgList);
+    console.log("2" + formData);
+    console.log(nowSelectImgList[0])
+    console.log("이미지(imgs) url" + imgs)
+
+  };
+
   const FeedWriteAct = (e) => {
-    let test = e.target
+
+
+
     const data = new FormData(document.getElementById('formData'));
     console.log(data)
     const boardTitle = data.get("boardTitle")
-    const feedContent = data.get("feedContent");
-
-    e.preventDefault();
+    const feedContent = data.get("feedContent")
+    const boardImg = imgs;
     FeedWriteAxi({
       boardTitle: boardTitle,
       boardContent: feedContent,
       boardWriterNickName: userInfo.userNickName,
       boardWriterId: userInfo.userId,
       tagIdentifier: uuid(),
-      boardTag: tagList
+      boardTag: tagList,
+      boardImg: boardImg[0]
     });
-
+    console.log("보드 이미지" + boardImg[0])
   }
 
 
@@ -161,6 +196,24 @@ export const FeedWrite = () => {
                   label="글 작성"
                 >
                 </TextField>
+                <img src={imgs}></img>
+                {/*씨발이게뭐였지  */}
+                <Button variant="contained" component="label">
+                  파일 첨부
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name="boardImg"
+                    // ref={register}
+                    required="이미지 파일이 아닙니다."
+                    // pattern="/(.*?)\.(jpg|jpeg|png|gif|bmp|pdf)$/"
+                    multiple="multiple"
+                    hidden
+                    onChange={handleImgUpload}
+                  />
+                </Button>
+
+
                 <WholeBox>
 
                   <TagBox>

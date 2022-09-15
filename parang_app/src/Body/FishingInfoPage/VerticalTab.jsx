@@ -64,10 +64,9 @@ const a11yProps = (index) => {
 }
 
 
-export const VerticalTabs = ({ tdWeather,  btList }) => {
+export const VerticalTabs = ({ tdWeather,  btList, putComponent, setPutComponent }) => {
     const { verticalIndex } = useStoreData();
     const [value, setValue] = React.useState(0);
-    const [putComponent, setPutComponent] = React.useState(<HowToUse />)
 
 
 

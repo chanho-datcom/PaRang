@@ -12,10 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,7 +27,7 @@ public class FeedController {
     @Autowired
     private UserService userService;
 
-    /** 
+    /**
      * 게시물 불러오기
      * 박재현
      * */
@@ -66,6 +63,22 @@ public class FeedController {
                 .boardImg(feedData.getBoardImg())
                 .build();
 
-               return ResponseEntity.ok().body(responseFeedDTO);
+        return ResponseEntity.ok().body(responseFeedDTO);
     }
+
+    @PatchMapping("/updateboard/{boardId}")
+    public ResponseEntity<?> updateBoard(@RequestBody FeedDTO feedDTO, @PathVariable Long boardId){
+        log.info("피드 수정"+ String.valueOf(feedDTO));
+        log.info(String.valueOf(boardId));
+        log.info(String.valueOf(feedDTO.getBoardId()));
+        feedService.updateBoard(feedDTO, boardId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/deleteboard/{boardId}")
+    public ResponseEntity<?> deleteBoard(@PathVariable Long boardId){
+        feedService.deleteBoard(boardId);
+        return ResponseEntity.ok().build();
+    }
+
 }

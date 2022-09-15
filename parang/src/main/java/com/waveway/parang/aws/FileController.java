@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,8 +25,8 @@ public class FileController {
     @Autowired
     AmazonS3Client amazonS3Client;
 
-    @GetMapping("/upload")
-    public ResponseEntity<Object> upload(@RequestParam(value = "image") MultipartFile[] multipartFileList) throws Exception {
+    @PostMapping("/upload")
+    public ResponseEntity<Object> upload(@RequestParam(value = "multiPratFile") MultipartFile[] multipartFileList) throws Exception {
         List<String> imagePathList = new ArrayList<>();
 
         for (MultipartFile multipartFile : multipartFileList) {
@@ -41,7 +42,6 @@ public class FileController {
             amazonS3Client.putObject(
                     new PutObjectRequest(S3Bucket, originalName, multipartFile.getInputStream(), objectMetaData)
                             .withCannedAcl(CannedAccessControlList.PublicRead)
-
             );
 
             String imagePath = amazonS3Client.getUrl(S3Bucket, originalName).toString(); // 접근가능한 URL 가져오기

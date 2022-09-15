@@ -26,13 +26,12 @@ function useStoreData() {
 export const FishingProbability = () => {
 
   const { dates, searchArea } = useStoreData();
-
-  const { dateStore } = useStores();
-  const dateForPbb = String(moment(dates).format("YYYY-MM-DD"))
+  
 
   const [testData, setTestData] = useState([]);
 
   useEffect(() => {
+    console.log(searchArea)
     axios.post(API_BASE_URL + "/probability/retrieveFishProbability", { "pbbName": searchArea, "pbbDate": String(moment(dates).format("YYYY-MM-DD")) }, null)
         .then((res) => {
       console.log(res.data.resList)
@@ -41,9 +40,9 @@ export const FishingProbability = () => {
     }).catch(() => {
       console.log("AXIOS 통신에러")
     })
-  }, [])
+  }, [searchArea])
 
-  console.log(testData);
+
 
   console.log(Object.keys(testData))
   return (
