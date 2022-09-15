@@ -19,6 +19,7 @@ public class TabooService {
 
     public List<FishingTabooEntity> retrieve(final Date prohibitionStartDate){
         System.out.println("taboo service retrieve hi");
+        System.out.println(prohibitionStartDate);
         return repository.findDate(prohibitionStartDate);
     }
 

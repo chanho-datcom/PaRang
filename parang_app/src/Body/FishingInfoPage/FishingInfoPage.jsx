@@ -26,7 +26,6 @@ export const FishingInfoPage = () => {
 
     const [btList, setBtList] = useState([]);
 
-    const [tabooList, setTabooList] = useState([]);
 
     useEffect(() => {
         axios.post(API_BASE_URL+"/weather/retrieve", { "harborName": harbor }, null).then((res) => {
@@ -43,12 +42,13 @@ export const FishingInfoPage = () => {
         }).catch(() => {
             console.log("AXIOS 통신에러")
         })
-    }, [harbor, tabooList])
+
+    }, [harbor])
 
     return (
         <Grid container>
             <Grid item xs={4}>
-                <VerticalTabs tdWeather={tdWeather} btList={btList} setTabooList={setTabooList} tabooList={tabooList} />
+                <VerticalTabs tdWeather={tdWeather} btList={btList} />
             </Grid>
             <Grid item xs={8}>
                 <FishingInfoMap />

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,7 @@ public class TabooController {
     @PostMapping(value="/retrieve")
     public ResponseEntity<?> retrieveTaboo(@RequestBody FishingTabooEntity fishingTabooEntity){
         System.out.println("retrieveTabb working!!!");
+        System.out.println(fishingTabooEntity.getProhibitionStartDate());
         List<FishingTabooEntity> taboo = tabooService.retrieve(fishingTabooEntity.getProhibitionStartDate());
         List<FishingTabooDTO> dtos = taboo.stream().map(FishingTabooDTO::new).collect(Collectors.toList());
         System.out.println(""+taboo);

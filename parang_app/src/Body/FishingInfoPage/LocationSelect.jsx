@@ -10,6 +10,7 @@ import { Button } from "@mui/material";
 import { useStores } from "../../states/Context";
 import { useObserver } from 'mobx-react';
 import axios from 'axios';
+import { API_BASE_URL } from "../../config/API-Config"
 
 
 
@@ -28,29 +29,23 @@ function useLocationData() {
     }))
 }
 
-const LocationSelect = ({ setTabooList }) => {
+const LocationSelect = () => {
     const { counties, cities, harbors, harbor, city, county, dates } = useLocationData()
     const { dateStore } = useStores();
     const { countyStore } = useStores();
     const [dateValue, setDateValue] = useState(new Date());
-    const [secondValue, setSecondValue] = useState();
+
     const targetDateValue = moment(dateValue).format("YYYYMMDD");
     const dateForTaboo = moment(dateValue).format("YYYY-MM-DD")
 
-    // 찬호코드
     useEffect(() => {
         dateStore.changeDate(targetDateValue);
-        console.log(dates);
-        axios.post("http://localhost:8080/taboo/retrieve", { "prohibitionStartDate": dateForTaboo }).then((res) => {
-            console.log("taboo axios 통신실행")
-            console.log(res.data.resList);
-            setTabooList(res.data.resList);
-        }, [dateValue])
-    })
+
+    }, [dateValue])
+
 
     const onChange = (e) => {
         countyStore.setCounty(e.target.value);
-
     };
 
     //시군구 onchange
@@ -61,9 +56,6 @@ const LocationSelect = ({ setTabooList }) => {
         e.preventDefault();
         countyStore.setCounty("");
     }
-    console.log(dateValue)
-
-
     return (
 
         <div>

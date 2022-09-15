@@ -15,6 +15,7 @@ public class ConstructorProperties {
     private final String weatherServiceKey;
 
     private final String jwtSecretKey;
+    private final String fishApiKey;
     @Getter
     @RequiredArgsConstructor
     public static final class Aws{
