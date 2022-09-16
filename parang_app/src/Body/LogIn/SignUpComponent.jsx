@@ -16,22 +16,21 @@ function SignUpComponent() {
 
 
     const signUp = (UserDTO) => {
-        axios({
-            method: 'post',
-            data: UserDTO,
-            url: API_BASE_URL + "/user/signup"
-        })
+        axios.post(API_BASE_URL + "/user/signup", UserDTO)
             .then((response) => {
                 if (response.data !== null) {
-                    navigate("/signin");
+                    navigate("/")
+                }else{
+                    navigate("/whfoiwehoiefhwofeh")
                 }
             });
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(e.target.value);
-        const data = new FormData(e.target);
+
+    
+        const data = new FormData(document.getElementById("signup"));
         const userEmail = data.get("userEmail");
         const userPassword = data.get("userPassword");
         const userName = data.get("userName")
@@ -55,7 +54,7 @@ function SignUpComponent() {
     }
     //이메일 인증코드 요청 보내는 함수
     const certificationEmail = (e) => {
-        e.preventDefault();
+       
         console.log(uEmail);
         axios.post(API_BASE_URL + "/mail/send", { address: uEmail })
             .then((res) => {
@@ -66,7 +65,7 @@ function SignUpComponent() {
     }
     //사용자가 입력한 인증코드와 컨트롤러에서 리턴된 인증코드 비교
     const checkCerNum = (e) => {
-        e.preventDefault();
+        
         if (certificationNum == checkNum) {
             alert("확인완료")
             setCertificated(true);
@@ -123,7 +122,7 @@ function SignUpComponent() {
                 </Grid>
 
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} id="signup">
                     <Grid container direction={"column"} spacing={1} style={{ display: 'inline-block' }} >
                         <Grid item >
                             <TextField
@@ -273,7 +272,6 @@ function SignUpComponent() {
 
                     </Grid>
                 </form>
-
             </Grid>
         </div >
 

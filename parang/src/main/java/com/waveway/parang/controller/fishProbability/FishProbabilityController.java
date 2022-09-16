@@ -28,7 +28,7 @@ public class FishProbabilityController {
     @Autowired
     private HttpConnection httpConnection;
 
-    @Scheduled(cron="* * 8 * * *")
+//    @Scheduled(cron="* * 8 * * *")
     @GetMapping("/create")
     public void createFishProbabilityTable(){
         System.out.println("createFishProbability working!!!");
@@ -79,12 +79,12 @@ public class FishProbabilityController {
     @PostMapping(value="/retrieveFishProbability")
     public ResponseEntity<?> retrieveFishProbability (@RequestBody ProbabilityEntity probabilityEntity){
         System.out.println("retrieveFishProbability");
-        System.out.println(probabilityEntity.getPbbName());
+
         List<ProbabilityEntity> probabilitys = fishProbabilityService.retrieveFishProbability(probabilityEntity.getPbbName(),probabilityEntity.getPbbDate());
         List<ProbabilityDTO> dtos = probabilitys.stream().map(ProbabilityDTO::new).collect(Collectors.toList());
-        System.out.println(""+probabilitys);
+
         ResponseDTO<ProbabilityDTO> response = ResponseDTO.<ProbabilityDTO>builder().resList(dtos).build();
-        System.out.println(probabilitys);
+
 
         return ResponseEntity.ok().body(response);
     }

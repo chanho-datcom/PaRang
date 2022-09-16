@@ -84,6 +84,7 @@ export default function Feed(item, { setCheckBoard, checkBoard }) {
    * 글 수정하기 
    */
   const updateBoardAct = (feedData) => {
+    let a;
     axios.patch(API_BASE_URL + `/feedAll/updateboard/${item.boardId}`, {
       boardTitle: feedData.updateBoardTitle,
       boardContent: feedData.updateBoardContent,
@@ -91,8 +92,13 @@ export default function Feed(item, { setCheckBoard, checkBoard }) {
       setCheckBoard(!checkBoard);
     }).catch(() => {
       console.log("error")
+      a = "error"
     })
-    navigate('/feedAll')
+    if(a === "error"){
+      alert("다시 시도해주세요");
+    }else{
+      window.location.href="/feedAll";
+    }
   }
 
   const updateBoardData = (e) => {
@@ -117,7 +123,7 @@ export default function Feed(item, { setCheckBoard, checkBoard }) {
   const deleteBoardData = () => {
     axios.delete(API_BASE_URL + `/feedAll/deleteboard/${item.boardId}`, {
     })
-    navigate('/feedAll')
+    window.location.href="/feedAll";
   }
 
   // //더보기 버튼 액션
@@ -172,7 +178,7 @@ export default function Feed(item, { setCheckBoard, checkBoard }) {
            
             {boardTag.map((tag, tagIdentifier) => {
               return (
-                <Typography key={tagIdentifier}>
+                <Typography key={tagIdentifier} style={{color: 'blue', backgroundColor: 'powderblue'}}>
                   {tagPutter(tag, item)}
                 </Typography>
               )

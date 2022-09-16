@@ -31,7 +31,7 @@ public class WeatherController {
     private String[] LAT = {"35", "33", "33", "37", "37", "34", "38", "37"};
     private String[] LOT = {"129", "126", "126", "126", "126", "128", "128", "128"};
 
-    @Scheduled(cron="* 15 2/3 * * *")
+//    @Scheduled(cron="* 15 2/3 * * *")
     @GetMapping("/create")
     public void createWeatherInfo(){
         System.out.println("createWeatherInfo working!!!");

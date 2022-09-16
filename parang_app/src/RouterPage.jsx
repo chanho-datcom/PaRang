@@ -11,6 +11,7 @@ import { MyPage } from './Body/MyPage/MyPage';
 import FeedAll from "./Body/FeedPage/FeedAll";
 import Prac from './Prac';
 import { FeedWrite } from './Body/FeedPage/FeedWrite';
+import {FishingLottie} from './LottieFiles/FishingLottie';
 
 
 export const RouterPage = () => {
@@ -32,6 +33,7 @@ export const RouterPage = () => {
                     <Route path='/fishinginfo' element={<FishingInfoPage />} />
                     <Route path='/prac' element={<Prac />} />
                     <Route path='/feedwrite' element={<FeedWrite />} />
+                    <Route path="*" element = {<FishingLottie/>} />
                 </Routes>
             </div>
             <Footer />

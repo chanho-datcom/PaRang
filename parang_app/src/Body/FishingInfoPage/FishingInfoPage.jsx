@@ -9,19 +9,22 @@ import { useStores } from "../../states/Context";
 import { useObserver } from "mobx-react";
 import { API_BASE_URL} from "../../config/API-Config"
 import { HowToUse } from './HowToUse';
+import moment from 'moment';
 
 function useStoreData() {
-    const { countyStore } = useStores();
+    const { countyStore, dateStore } = useStores();
+
 
     return useObserver(() => ({
         harbor: countyStore.harbor,
         county: countyStore.county,
         city: countyStore.city,
+        dates: dateStore.dates
     }))
 }
 
 export const FishingInfoPage = () => {
-    const {  harbor } = useStoreData();
+    const {  harbor, dates } = useStoreData();
 
     const [putComponent, setPutComponent] = React.useState(<HowToUse />)
     const [tdWeather, setTdWeather] = useState([]);
@@ -29,7 +32,7 @@ export const FishingInfoPage = () => {
     const [btList, setBtList] = useState([]);
 
     useEffect(() => {
-        axios.post(API_BASE_URL+"/weather/retrieve", { "harborName": harbor }, null).then((res) => {
+        axios.post(API_BASE_URL+"/weather/retrieve", { "harborName": harbor, "fcstDate" :  String(moment(dates).format("YYYYMMDD"))}).then((res) => {
             setTdWeather(res.data.resList)
         }).catch(() => {
             console.log("AXIOS 통신에러")
@@ -40,7 +43,7 @@ export const FishingInfoPage = () => {
             console.log("AXIOS 통신에러")
         })
 
-    }, [harbor])
+    }, [harbor, dates])
 
     return (
         <Grid container>

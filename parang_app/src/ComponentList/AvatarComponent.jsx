@@ -13,7 +13,7 @@ export const AvatarComponent = ({boardWriterId}) => {
                 userId : boardWriterId
             })
             .then((res) => {
-                console.log(res.data);
+            
                 setUserInfo(res.data);
             })
             .catch();

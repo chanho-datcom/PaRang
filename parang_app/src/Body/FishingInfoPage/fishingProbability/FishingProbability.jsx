@@ -32,7 +32,7 @@ export const FishingProbability = () => {
 
   useEffect(() => {
     console.log(searchArea)
-    axios.post(API_BASE_URL + "/probability/retrieveFishProbability", { "pbbName": searchArea, "pbbDate": String(moment(dates).format("YYYY-MM-DD")) }, null)
+    axios.post(API_BASE_URL + "/probability/retrieveFishProbability", { "pbbName": searchArea, "pbbDate": String(moment(dates).format("YYYY-MM-DD")) })
         .then((res) => {
       console.log(res.data.resList)
       setTestData(res.data.resList)
@@ -43,8 +43,6 @@ export const FishingProbability = () => {
   }, [searchArea])
 
 
-
-  console.log(Object.keys(testData))
   return (
     <div style={{ height: '100%', overflow: 'auto' }}>
 

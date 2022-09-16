@@ -189,7 +189,7 @@ export const NavBar = () => {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                 >
-              <MenuItem value="Profile">Profile</MenuItem>
+              <MenuItem value="Profile" onClick={()=>{navigate("/mypage")}}>Profile</MenuItem>
               <MenuItem value="Account">Account</MenuItem>
               <MenuItem value="Dashboard">Dashboard</MenuItem>
               <MenuItem name="LogOut" value="Logout" onClick={LogOutAct}>Logout</MenuItem>

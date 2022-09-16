@@ -36,7 +36,7 @@ export const BasicUserProfile = () => {
     const [userInfo, setUserInfo] = useState([]);
     React.useEffect(() => {
         axios
-            .get(API_BASE_URL + "/user/mypage", {
+            .get(API_BASE_URL + "/user/getUserInfo", {
                 headers: { Authorization: localStorage.getItem("Authorization") },
             })
             .then((res) => {

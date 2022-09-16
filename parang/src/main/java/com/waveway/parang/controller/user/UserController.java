@@ -65,7 +65,6 @@ public class UserController {
                     .userProfilePicture(signUp.getUserProfilePicture())
                     .userPNum(signUp.getUserPNum())
                     .userEmail(signUp.getUserEmail())
-                    .userPassword(signUp.getUserPassword())
                     .userAge(signUp.getUserAge())
                     .userSex(signUp.getUserSex())
                     .build();

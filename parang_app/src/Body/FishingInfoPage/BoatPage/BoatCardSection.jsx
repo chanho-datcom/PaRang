@@ -32,7 +32,7 @@ export const BoatCardSection = (item) => {
         setExpanded(!expanded);
     };
 
-    console.log(item)
+
 
     return (
         <div>
